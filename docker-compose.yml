@@ -1,0 +1,30 @@
+version: "3"
+services:
+  nodeapp:
+    container_name: new
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4045:3030"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    environment:
+      WAIT_HOSTS: mongodb:27017
+    networks:
+      - test1
+  mongodb:
+    container_name: mongo1
+    image: mongo:latest
+    volumes:
+      - ~/mongo:/test2
+    ports:
+      - "27017:27017"
+    networks:
+      - test1
+networks:
+  test1:
+    driver: bridge
